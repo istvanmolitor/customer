@@ -1,0 +1,26 @@
+{
+    "name": "molitor/customer",
+    "description": "Customer",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Molitor István",
+            "email": "istvanmolitor@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Molitor\\Customer\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Molitor\\Customer\\Providers\\CustomerServiceProvider"
+            ]
+        }
+    }
+}
