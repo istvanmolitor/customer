@@ -43,7 +43,7 @@ class CustomerRepository implements CustomerRepositoryInterface
                 'name' => $internalName,
                 'internal_name' => $internalName,
                 'currency_id' => $this->currencyRepository->getDefaultId(),
-                'language_id' => $this->languageRepository->getDefaultLanguageId(),
+                'language_id' => $this->languageRepository->getDefaultId(),
                 'invoice_address_id' => $this->addressRepository->createEmptyId(),
                 'shipping_address_id' => $this->addressRepository->createEmptyId(),
             ]);
