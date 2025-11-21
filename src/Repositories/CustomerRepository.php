@@ -77,4 +77,9 @@ class CustomerRepository implements CustomerRepositoryInterface
     {
         return $this->customer->find($customerId);
     }
+
+    public function getSellerOptions(): array
+    {
+        return $this->customer->orderBy('name')->where('is_seller', true)->pluck('name', 'id')->toArray();
+    }
 }
