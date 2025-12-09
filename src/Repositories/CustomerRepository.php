@@ -10,6 +10,7 @@ use Molitor\Currency\Repositories\CurrencyRepositoryInterface;
 use Molitor\Customer\Events\CustomerDestroyEvent;
 use Molitor\Customer\Models\Customer;
 use Molitor\Language\Repositories\LanguageRepositoryInterface;
+use Molitor\User\Models\User;
 
 class CustomerRepository implements CustomerRepositoryInterface
 {
@@ -81,5 +82,23 @@ class CustomerRepository implements CustomerRepositoryInterface
     public function getSellerOptions(): array
     {
         return $this->customer->orderBy('name')->where('is_seller', true)->pluck('name', 'id')->toArray();
+    }
+
+    public function getByUser(User $user): Customer
+    {
+        $customer = $this->customer->where('user_id', $user->id)->first();
+        if($customer) {
+            return $customer;
+        }
+
+        return $this->customer->create([
+            'name' => '',
+            'internal_name' => '',
+            'user_id' => $user->id,
+            'currency_id' => $this->currencyRepository->getDefaultId(),
+            'language_id' => $this->languageRepository->getDefaultId(),
+            'invoice_address_id' => $this->addressRepository->createEmptyId(),
+            'shipping_address_id' => $this->addressRepository->createEmptyId(),
+        ]);
     }
 }

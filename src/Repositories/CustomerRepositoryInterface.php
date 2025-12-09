@@ -6,6 +6,7 @@ namespace Molitor\Customer\Repositories;
 
 use Illuminate\Database\Eloquent\Collection;
 use Molitor\Customer\Models\Customer;
+use Molitor\User\Models\User;
 
 interface CustomerRepositoryInterface
 {
@@ -24,4 +25,6 @@ interface CustomerRepositoryInterface
     public function getById(int $customerId): Customer|null;
 
     public function getSellerOptions(): array;
+
+    public function getByUser(User $user): Customer;
 }
