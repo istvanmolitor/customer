@@ -26,4 +26,5 @@ return [
     'customers' => 'Ügyfelek',
     'customer_groups' => 'Ügyfélcsoportok',
     'list' => 'Lista',
+    'tax_number' => 'Adószám',
 ];

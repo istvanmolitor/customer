@@ -28,6 +28,7 @@ class Customer extends Model
         'customer_group_id',
         'currency_id',
         'language_id',
+        'tax_number',
         'invoice_address_id',
         'shipping_address_id',
     ];

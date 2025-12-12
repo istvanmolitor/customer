@@ -15,6 +15,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Gate;
+use Molitor\Address\Filament\Components\Address;
 use Molitor\Currency\Repositories\CurrencyRepositoryInterface;
 use Molitor\Customer\Filament\Resources\CustomerResource\Pages;
 use Molitor\Customer\Models\Customer;
@@ -65,6 +66,11 @@ class CustomerResource extends Resource
                         ->relationship(name: 'user', titleAttribute: 'name')
                         ->searchable()
                         ->preload(),
+
+                    Forms\Components\TextInput::make('tax_number')
+                        ->label(__('customer::common.tax_number'))
+                        ->maxLength(50),
+
                     Forms\Components\Select::make('customer_group_id')
                         ->label(__('customer::common.group'))
                         ->relationship(name: 'customerGroup', titleAttribute: 'name')
@@ -84,8 +90,8 @@ class CustomerResource extends Resource
                         ->preload(),
                 ])->columns(2),
                 Tabs\Tab::make('advanced')->label(__('customer::common.addresses'))->components([
-                    \Molitor\Address\Filament\Components\Address::make('invoice_address', __('customer::common.invoice_address')),
-                    \Molitor\Address\Filament\Components\Address::make('shipping_address', __('customer::common.shipping_address')),
+                    Address::make('invoice_address', __('customer::common.invoice_address')),
+                    Address::make('shipping_address', __('customer::common.shipping_address')),
                 ]),
             ]),
         ])->columns(1);
