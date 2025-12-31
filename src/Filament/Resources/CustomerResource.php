@@ -7,12 +7,18 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Gate;
 use Molitor\Address\Filament\Components\Address;
@@ -53,36 +59,36 @@ class CustomerResource extends Resource
 
             Tabs::make('customer_tabs')->tabs([
                 Tabs\Tab::make('general')->label(__('customer::common.general'))->components([
-                    Forms\Components\TextInput::make('name')->label(__('customer::common.name'))->required()->maxLength(255),
-                    Forms\Components\TextInput::make('internal_name')->label(__('customer::common.internal_name'))->maxLength(255),
-                    Forms\Components\Textarea::make('description')->label(__('customer::common.description'))->columnSpanFull(),
+                    TextInput::make('name')->label(__('customer::common.name'))->required()->maxLength(255),
+                    TextInput::make('internal_name')->label(__('customer::common.internal_name'))->maxLength(255),
+                    Textarea::make('description')->label(__('customer::common.description'))->columnSpanFull(),
                 ]),
                 Tabs\Tab::make('meta')->label(__('customer::common.detailed'))->components([
-                    Forms\Components\Toggle::make('is_seller')->label(__('customer::common.is_seller'))->default(false),
-                    Forms\Components\Toggle::make('is_buyer')->label(__('customer::common.is_buyer'))->default(false),
+                    Toggle::make('is_seller')->label(__('customer::common.is_seller'))->default(false),
+                    Toggle::make('is_buyer')->label(__('customer::common.is_buyer'))->default(false),
 
-                    Forms\Components\Select::make('user_id')
+                    Select::make('user_id')
                         ->label(__('customer::common.user'))
                         ->relationship(name: 'user', titleAttribute: 'name')
                         ->searchable()
                         ->preload(),
 
-                    Forms\Components\TextInput::make('tax_number')
+                    TextInput::make('tax_number')
                         ->label(__('customer::common.tax_number'))
                         ->maxLength(50),
 
-                    Forms\Components\Select::make('customer_group_id')
+                    Select::make('customer_group_id')
                         ->label(__('customer::common.group'))
                         ->relationship(name: 'customerGroup', titleAttribute: 'name')
                         ->searchable()
                         ->preload(),
-                    Forms\Components\Select::make('currency_id')
+                    Select::make('currency_id')
                         ->label(__('customer::common.currency'))
                         ->relationship(name: 'currency', titleAttribute: 'code')
                         ->default($currencyRepository->getDefaultId())
                         ->searchable()
                         ->preload(),
-                    Forms\Components\Select::make('language_id')
+                    Select::make('language_id')
                         ->label(__('customer::common.language'))
                         ->relationship(name: 'language', titleAttribute: 'code')
                         ->default($languageRepository->getDefaultId())
@@ -101,14 +107,14 @@ class CustomerResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->label(__('customer::common.name'))->searchable()->sortable(),
-                Tables\Columns\IconColumn::make('is_seller')
+                TextColumn::make('name')->label(__('customer::common.name'))->searchable()->sortable(),
+                IconColumn::make('is_seller')
                     ->boolean()
                     ->label(__('customer::common.is_seller')),
-                Tables\Columns\IconColumn::make('is_buyer')
+                IconColumn::make('is_buyer')
                     ->boolean()
                     ->label(__('customer::common.is_buyer')),
-                Tables\Columns\TextColumn::make('customerGroup.name')->label(__('customer::common.group'))->sortable(),
+                TextColumn::make('customerGroup.name')->label(__('customer::common.group'))->sortable(),
             ])
             ->filters([
             ])
