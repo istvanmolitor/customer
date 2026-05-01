@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Molitor\Customer\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Molitor\Customer\database\factories\CustomerGroupFactory;
 
 class CustomerGroup extends Model

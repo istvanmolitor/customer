@@ -20,9 +20,8 @@ class CustomerRepository implements CustomerRepositoryInterface
         private AddressRepositoryInterface $addressRepository,
         private CurrencyRepositoryInterface $currencyRepository,
         private LanguageRepositoryInterface $languageRepository
-    )
-    {
-        $this->customer = new Customer();
+    ) {
+        $this->customer = new Customer;
     }
 
     public function getByName(string $name): ?Customer
@@ -38,7 +37,7 @@ class CustomerRepository implements CustomerRepositoryInterface
     public function findOrCrate(string $internalName): Customer
     {
         $customer = $this->getByInternalName($internalName);
-        if (!$customer) {
+        if (! $customer) {
 
             return $this->customer->create([
                 'name' => $internalName,
@@ -49,6 +48,7 @@ class CustomerRepository implements CustomerRepositoryInterface
                 'shipping_address_id' => $this->addressRepository->createEmptyId(),
             ]);
         }
+
         return $customer;
     }
 
@@ -74,7 +74,7 @@ class CustomerRepository implements CustomerRepositoryInterface
         return $this->customer->orderBy('name')->get();
     }
 
-    public function getById(int $customerId): Customer|null
+    public function getById(int $customerId): ?Customer
     {
         return $this->customer->find($customerId);
     }
@@ -87,7 +87,7 @@ class CustomerRepository implements CustomerRepositoryInterface
     public function getByUser(User $user): Customer
     {
         $customer = $this->customer->where('user_id', $user->id)->first();
-        if($customer) {
+        if ($customer) {
             return $customer;
         }
 

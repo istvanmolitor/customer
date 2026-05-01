@@ -36,10 +36,10 @@ class Customer extends Model
     protected static function booted(): void
     {
         static::creating(function (Customer $customer) {
-            if(empty($customer->invoice_address_id)) {
+            if (empty($customer->invoice_address_id)) {
                 $customer->invoice_address_id = app(AddressRepositoryInterface::class)->createEmptyId();
             }
-            if(empty($customer->shipping_address_id)) {
+            if (empty($customer->shipping_address_id)) {
                 $customer->shipping_address_id = app(AddressRepositoryInterface::class)->createEmptyId();
             }
         });
@@ -84,6 +84,4 @@ class Customer extends Model
     {
         return $this->belongsTo(Address::class, 'shipping_address_id');
     }
-
-
 }

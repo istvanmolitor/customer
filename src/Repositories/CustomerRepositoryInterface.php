@@ -22,7 +22,7 @@ interface CustomerRepositoryInterface
 
     public function getAll(): Collection;
 
-    public function getById(int $customerId): Customer|null;
+    public function getById(int $customerId): ?Customer;
 
     public function getSellerOptions(): array;
 

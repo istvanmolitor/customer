@@ -3,9 +3,9 @@
 namespace Molitor\Customer\Filament\Resources\CustomerResource\Pages;
 
 use Filament\Resources\Pages\EditRecord;
-use Molitor\Customer\Filament\Resources\CustomerResource;
-use Molitor\Address\Repositories\AddressRepositoryInterface;
 use Molitor\Address\Models\Address;
+use Molitor\Address\Repositories\AddressRepositoryInterface;
+use Molitor\Customer\Filament\Resources\CustomerResource;
 
 class EditCustomer extends EditRecord
 {
@@ -34,6 +34,7 @@ class EditCustomer extends EditRecord
                 'address' => $address->address,
             ];
         }
+
         return $data;
     }
 
@@ -43,7 +44,7 @@ class EditCustomer extends EditRecord
         $addressRepository = app(AddressRepositoryInterface::class);
 
         $record = $this->getRecord();
-        $address = $record->invoiceAddress ?: new Address();
+        $address = $record->invoiceAddress ?: new Address;
 
         if (isset($data['invoice_address']) && is_array($data['invoice_address'])) {
             $addressRepository->saveAddress($address, $data['invoice_address']);

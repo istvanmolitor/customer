@@ -3,9 +3,9 @@
 namespace Molitor\Customer\Filament\Resources\CustomerResource\Pages;
 
 use Filament\Resources\Pages\CreateRecord;
-use Molitor\Customer\Filament\Resources\CustomerResource;
-use Molitor\Address\Repositories\AddressRepositoryInterface;
 use Molitor\Address\Models\Address;
+use Molitor\Address\Repositories\AddressRepositoryInterface;
+use Molitor\Customer\Filament\Resources\CustomerResource;
 
 class CreateCustomer extends CreateRecord
 {
@@ -26,7 +26,7 @@ class CreateCustomer extends CreateRecord
         if (isset($data['invoice_address']) && is_array($data['invoice_address'])) {
             /** @var AddressRepositoryInterface $addressRepository */
             $addressRepository = app(AddressRepositoryInterface::class);
-            $address = new Address();
+            $address = new Address;
             $addressRepository->saveAddress($address, $data['invoice_address']);
             $data['invoice_address_id'] = $address->id;
             unset($data['invoice_address']);
