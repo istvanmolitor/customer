@@ -21,6 +21,8 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'currency_id', type: 'integer', example: 1, nullable: true),
         new OA\Property(property: 'language_id', type: 'integer', example: 1, nullable: true),
         new OA\Property(property: 'tax_number', type: 'string', example: 'XX123456789', nullable: true),
+        new OA\Property(property: 'invoice_address', type: 'object', nullable: true),
+        new OA\Property(property: 'shipping_address', type: 'object', nullable: true),
     ]
 )]
 class UpdateCustomerRequest extends FormRequest
@@ -50,6 +52,18 @@ class UpdateCustomerRequest extends FormRequest
             'currency_id' => 'nullable|exists:currencies,id',
             'language_id' => 'nullable|exists:languages,id',
             'tax_number' => 'nullable|string|max:50',
+            'invoice_address' => 'nullable|array',
+            'invoice_address.name' => 'nullable|string|max:255',
+            'invoice_address.country_id' => 'nullable|exists:countries,id',
+            'invoice_address.zip_code' => 'nullable|string|max:10',
+            'invoice_address.city' => 'nullable|string|max:255',
+            'invoice_address.address' => 'nullable|string|max:255',
+            'shipping_address' => 'nullable|array',
+            'shipping_address.name' => 'nullable|string|max:255',
+            'shipping_address.country_id' => 'nullable|exists:countries,id',
+            'shipping_address.zip_code' => 'nullable|string|max:10',
+            'shipping_address.city' => 'nullable|string|max:255',
+            'shipping_address.address' => 'nullable|string|max:255',
         ];
     }
 }

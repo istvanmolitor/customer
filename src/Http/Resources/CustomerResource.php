@@ -21,6 +21,8 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'customer_group_id', type: 'integer', nullable: true),
         new OA\Property(property: 'currency_id', type: 'integer', nullable: true),
         new OA\Property(property: 'language_id', type: 'integer', nullable: true),
+        new OA\Property(property: 'invoice_address', type: 'object', nullable: true),
+        new OA\Property(property: 'shipping_address', type: 'object', nullable: true),
         new OA\Property(property: 'created_at', type: 'string', format: 'date-time'),
         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time'),
     ]
@@ -47,6 +49,24 @@ class CustomerResource extends JsonResource
             'language_id' => $this->language_id,
             'invoice_address_id' => $this->invoice_address_id,
             'shipping_address_id' => $this->shipping_address_id,
+            'invoice_address' => $this->whenLoaded('invoiceAddress', function () {
+                return [
+                    'name' => $this->invoiceAddress?->name,
+                    'country_id' => $this->invoiceAddress?->country_id,
+                    'zip_code' => $this->invoiceAddress?->zip_code,
+                    'city' => $this->invoiceAddress?->city,
+                    'address' => $this->invoiceAddress?->address,
+                ];
+            }),
+            'shipping_address' => $this->whenLoaded('shippingAddress', function () {
+                return [
+                    'name' => $this->shippingAddress?->name,
+                    'country_id' => $this->shippingAddress?->country_id,
+                    'zip_code' => $this->shippingAddress?->zip_code,
+                    'city' => $this->shippingAddress?->city,
+                    'address' => $this->shippingAddress?->address,
+                ];
+            }),
             'customer_group' => CustomerGroupSimpleResource::make($this->whenLoaded('customerGroup')),
             'currency' => $this->whenLoaded('currency', function () {
                 return ['id' => $this->currency?->id, 'name' => $this->currency?->name];

@@ -6,6 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Molitor\Admin\Traits\HasAdminFilters;
+use Molitor\Address\Repositories\AddressRepositoryInterface;
 use Molitor\Currency\Models\Currency;
 use Molitor\Customer\Http\Requests\StoreCustomerRequest;
 use Molitor\Customer\Http\Requests\UpdateCustomerRequest;
@@ -124,6 +125,8 @@ class CustomerApiController extends Controller
             'tax_number' => $validated['tax_number'] ?? null,
         ]);
 
+        $this->persistAddresses($customer, $validated);
+
         $customer->load('customerGroup', 'currency', 'language', 'invoiceAddress', 'shippingAddress');
 
         return response()->json([
@@ -227,6 +230,8 @@ class CustomerApiController extends Controller
             'tax_number' => $validated['tax_number'] ?? null,
         ]);
 
+        $this->persistAddresses($customer, $validated);
+
         $customer->load('customerGroup', 'currency', 'language', 'invoiceAddress', 'shippingAddress');
 
         return response()->json([
@@ -254,5 +259,21 @@ class CustomerApiController extends Controller
         return response()->json([
             'message' => __('customer::messages.deleted'),
         ]);
+    }
+
+    /**
+     * @param array<string, mixed> $validated
+     */
+    private function persistAddresses(Customer $customer, array $validated): void
+    {
+        $addressRepository = app(AddressRepositoryInterface::class);
+
+        if (array_key_exists('invoice_address', $validated) && $customer->invoiceAddress !== null) {
+            $addressRepository->saveAddress($customer->invoiceAddress, (array) ($validated['invoice_address'] ?? []));
+        }
+
+        if (array_key_exists('shipping_address', $validated) && $customer->shippingAddress !== null) {
+            $addressRepository->saveAddress($customer->shippingAddress, (array) ($validated['shipping_address'] ?? []));
+        }
     }
 }
