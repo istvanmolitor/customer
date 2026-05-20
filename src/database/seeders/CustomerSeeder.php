@@ -5,6 +5,7 @@ namespace Molitor\Customer\database\seeders;
 use Illuminate\Database\Seeder;
 use Molitor\Customer\Models\Customer;
 use Molitor\Customer\Models\CustomerGroup;
+use Molitor\Address\Repositories\AddressRepositoryInterface;
 use Molitor\User\Exceptions\PermissionException;
 use Molitor\User\Services\AclManagementService;
 
@@ -26,8 +27,17 @@ class CustomerSeeder extends Seeder
         }
 
         if (app()->isLocal()) {
+            /** @var AddressRepositoryInterface $addressRepository */
+            $addressRepository = app(AddressRepositoryInterface::class);
+
             CustomerGroup::factory(3)->create();
-            Customer::factory(10)->create();
+
+            for ($i = 0; $i < 10; $i++) {
+                Customer::factory()->create([
+                    'invoice_address_id' => $addressRepository->createEmptyId(),
+                    'shipping_address_id' => $addressRepository->createEmptyId(),
+                ]);
+            }
         }
     }
 }
