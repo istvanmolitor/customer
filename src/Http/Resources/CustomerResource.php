@@ -19,6 +19,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'description', type: 'string', example: 'VIP customer'),
         new OA\Property(property: 'tax_number', type: 'string', example: 'XX123456789'),
         new OA\Property(property: 'customer_group_id', type: 'integer', nullable: true),
+        new OA\Property(property: 'user_id', type: 'integer', nullable: true),
         new OA\Property(property: 'currency_id', type: 'integer', nullable: true),
         new OA\Property(property: 'language_id', type: 'integer', nullable: true),
         new OA\Property(property: 'invoice_address', type: 'object', nullable: true),
@@ -45,6 +46,7 @@ class CustomerResource extends JsonResource
             'description' => $this->description,
             'tax_number' => $this->tax_number,
             'customer_group_id' => $this->customer_group_id,
+            'user_id' => $this->user_id,
             'currency_id' => $this->currency_id,
             'language_id' => $this->language_id,
             'invoice_address_id' => $this->invoice_address_id,
@@ -68,6 +70,13 @@ class CustomerResource extends JsonResource
                 ];
             }),
             'customer_group' => CustomerGroupSimpleResource::make($this->whenLoaded('customerGroup')),
+            'user' => $this->whenLoaded('user', function () {
+                return [
+                    'id' => $this->user?->id,
+                    'name' => $this->user?->name,
+                    'email' => $this->user?->email,
+                ];
+            }),
             'currency' => $this->whenLoaded('currency', function () {
                 return ['id' => $this->currency?->id, 'name' => $this->currency?->name];
             }),

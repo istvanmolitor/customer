@@ -53,7 +53,7 @@ class CustomerApiController extends Controller
     )]
     public function index(Request $request): JsonResponse
     {
-        $query = Customer::with('customerGroup', 'currency', 'language');
+        $query = Customer::with('customerGroup', 'user', 'currency', 'language');
         $customers = $this->applyAdminFilters($query, $request, ['name', 'internal_name', 'tax_number'])
             ->paginate(10)
             ->withQueryString();
@@ -120,6 +120,7 @@ class CustomerApiController extends Controller
             'is_buyer' => $validated['is_buyer'] ?? true,
             'description' => $validated['description'] ?? null,
             'customer_group_id' => $validated['customer_group_id'] ?? null,
+            'user_id' => $validated['user_id'] ?? null,
             'currency_id' => $validated['currency_id'] ?? null,
             'language_id' => $validated['language_id'] ?? null,
             'tax_number' => $validated['tax_number'] ?? null,
@@ -127,7 +128,7 @@ class CustomerApiController extends Controller
 
         $this->persistAddresses($customer, $validated);
 
-        $customer->load('customerGroup', 'currency', 'language', 'invoiceAddress', 'shippingAddress');
+        $customer->load('customerGroup', 'user', 'currency', 'language', 'invoiceAddress', 'shippingAddress');
 
         return response()->json([
             'data' => new CustomerResource($customer),
@@ -157,7 +158,7 @@ class CustomerApiController extends Controller
     )]
     public function show(Customer $customer): JsonResponse
     {
-        $customer->load('customerGroup', 'currency', 'language', 'invoiceAddress', 'shippingAddress');
+        $customer->load('customerGroup', 'user', 'currency', 'language', 'invoiceAddress', 'shippingAddress');
 
         return response()->json([
             'data' => new CustomerResource($customer),
@@ -178,7 +179,7 @@ class CustomerApiController extends Controller
     )]
     public function edit(Customer $customer): JsonResponse
     {
-        $customer->load('customerGroup', 'currency', 'language', 'invoiceAddress', 'shippingAddress');
+        $customer->load('customerGroup', 'user', 'currency', 'language', 'invoiceAddress', 'shippingAddress');
 
         return response()->json([
             'data' => new CustomerResource($customer),
@@ -225,6 +226,7 @@ class CustomerApiController extends Controller
             'is_buyer' => $validated['is_buyer'] ?? $customer->is_buyer,
             'description' => $validated['description'] ?? null,
             'customer_group_id' => $validated['customer_group_id'] ?? $customer->customer_group_id,
+            'user_id' => $validated['user_id'] ?? null,
             'currency_id' => $validated['currency_id'] ?? $customer->currency_id,
             'language_id' => $validated['language_id'] ?? $customer->language_id,
             'tax_number' => $validated['tax_number'] ?? null,
@@ -232,7 +234,7 @@ class CustomerApiController extends Controller
 
         $this->persistAddresses($customer, $validated);
 
-        $customer->load('customerGroup', 'currency', 'language', 'invoiceAddress', 'shippingAddress');
+        $customer->load('customerGroup', 'user', 'currency', 'language', 'invoiceAddress', 'shippingAddress');
 
         return response()->json([
             'data' => new CustomerResource($customer),
