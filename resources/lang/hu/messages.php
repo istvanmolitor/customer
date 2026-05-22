@@ -8,4 +8,3 @@ return [
     'group_updated' => 'Ügyfélcsoport sikeresen frissítve',
     'group_deleted' => 'Ügyfélcsoport sikeresen törölve',
 ];
-

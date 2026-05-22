@@ -5,8 +5,8 @@ namespace Molitor\Customer\Http\Controllers\Api;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Molitor\Admin\Traits\HasAdminFilters;
 use Molitor\Address\Repositories\AddressRepositoryInterface;
+use Molitor\Admin\Traits\HasAdminFilters;
 use Molitor\Currency\Models\Currency;
 use Molitor\Customer\Http\Requests\StoreCustomerRequest;
 use Molitor\Customer\Http\Requests\UpdateCustomerRequest;
@@ -264,7 +264,7 @@ class CustomerApiController extends Controller
     }
 
     /**
-     * @param array<string, mixed> $validated
+     * @param  array<string, mixed>  $validated
      */
     private function persistAddresses(Customer $customer, array $validated): void
     {

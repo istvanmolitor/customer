@@ -3,9 +3,9 @@
 namespace Molitor\Customer\database\seeders;
 
 use Illuminate\Database\Seeder;
+use Molitor\Address\Repositories\AddressRepositoryInterface;
 use Molitor\Customer\Models\Customer;
 use Molitor\Customer\Models\CustomerGroup;
-use Molitor\Address\Repositories\AddressRepositoryInterface;
 use Molitor\User\Exceptions\PermissionException;
 use Molitor\User\Services\AclManagementService;
 

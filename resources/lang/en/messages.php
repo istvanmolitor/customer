@@ -8,4 +8,3 @@ return [
     'group_updated' => 'Customer group updated successfully',
     'group_deleted' => 'Customer group deleted successfully',
 ];
-
