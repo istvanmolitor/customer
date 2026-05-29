@@ -101,4 +101,23 @@ class CustomerRepository implements CustomerRepositoryInterface
             'shipping_address_id' => $this->addressRepository->createEmptyId(),
         ]);
     }
+
+    /**
+     * @param array<string, mixed> $validated
+     */
+    public function create(array $validated): Customer
+    {
+        return $this->customer->create([
+            'name' => $validated['name'],
+            'internal_name' => $validated['internal_name'] ?? $validated['name'],
+            'is_seller' => $validated['is_seller'] ?? false,
+            'is_buyer' => $validated['is_buyer'] ?? true,
+            'description' => $validated['description'] ?? null,
+            'customer_group_id' => $validated['customer_group_id'] ?? null,
+            'user_id' => $validated['user_id'] ?? null,
+            'currency_id' => $validated['currency_id'] ?? null,
+            'language_id' => $validated['language_id'] ?? null,
+            'tax_number' => $validated['tax_number'] ?? null,
+        ]);
+    }
 }

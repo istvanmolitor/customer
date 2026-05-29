@@ -4,6 +4,8 @@ namespace Molitor\Customer\Providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
+use Molitor\Customer\Repositories\CustomerGroupRepository;
+use Molitor\Customer\Repositories\CustomerGroupRepositoryInterface;
 use Molitor\Customer\Repositories\CustomerRepository;
 use Molitor\Customer\Repositories\CustomerRepositoryInterface;
 
@@ -22,5 +24,6 @@ class CustomerServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(CustomerRepositoryInterface::class, CustomerRepository::class);
+        $this->app->bind(CustomerGroupRepositoryInterface::class, CustomerGroupRepository::class);
     }
 }

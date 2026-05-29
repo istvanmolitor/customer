@@ -14,12 +14,17 @@ use Molitor\Customer\Http\Resources\CustomerGroupSimpleResource;
 use Molitor\Customer\Http\Resources\CustomerResource;
 use Molitor\Customer\Models\Customer;
 use Molitor\Customer\Models\CustomerGroup;
+use Molitor\Customer\Repositories\CustomerRepositoryInterface;
 use Molitor\Language\Models\Language;
 use OpenApi\Attributes as OA;
 
 class CustomerApiController extends Controller
 {
     use HasAdminFilters;
+
+    public function __construct(
+        private CustomerRepositoryInterface $customerRepository
+    ) {}
 
     #[OA\Get(
         path: '/api/admin/customer/customers',
@@ -113,18 +118,7 @@ class CustomerApiController extends Controller
     {
         $validated = $request->validated();
 
-        $customer = Customer::create([
-            'name' => $validated['name'],
-            'internal_name' => $validated['internal_name'] ?? $validated['name'],
-            'is_seller' => $validated['is_seller'] ?? false,
-            'is_buyer' => $validated['is_buyer'] ?? true,
-            'description' => $validated['description'] ?? null,
-            'customer_group_id' => $validated['customer_group_id'] ?? null,
-            'user_id' => $validated['user_id'] ?? null,
-            'currency_id' => $validated['currency_id'] ?? null,
-            'language_id' => $validated['language_id'] ?? null,
-            'tax_number' => $validated['tax_number'] ?? null,
-        ]);
+        $customer = $this->customerRepository->create($validated);
 
         $this->persistAddresses($customer, $validated);
 

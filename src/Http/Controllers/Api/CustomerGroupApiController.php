@@ -10,11 +10,16 @@ use Molitor\Customer\Http\Requests\StoreCustomerGroupRequest;
 use Molitor\Customer\Http\Requests\UpdateCustomerGroupRequest;
 use Molitor\Customer\Http\Resources\CustomerGroupResource;
 use Molitor\Customer\Models\CustomerGroup;
+use Molitor\Customer\Repositories\CustomerGroupRepositoryInterface;
 use OpenApi\Attributes as OA;
 
 class CustomerGroupApiController extends Controller
 {
     use HasAdminFilters;
+
+    public function __construct(
+        private CustomerGroupRepositoryInterface $customerGroupRepository
+    ) {}
 
     #[OA\Get(
         path: '/api/admin/customer/customer-groups',
@@ -104,10 +109,10 @@ class CustomerGroupApiController extends Controller
     {
         $validated = $request->validated();
 
-        $customerGroup = CustomerGroup::create([
-            'name' => $validated['name'],
-            'description' => $validated['description'] ?? null,
-        ]);
+        $customerGroup = $this->customerGroupRepository->create(
+            $validated['name'],
+            $validated['description'] ?? null,
+        );
 
         return response()->json([
             'data' => new CustomerGroupResource($customerGroup),

@@ -27,4 +27,9 @@ interface CustomerRepositoryInterface
     public function getSellerOptions(): array;
 
     public function getByUser(User $user): Customer;
+
+    /**
+     * @param array<string, mixed> $validated
+     */
+    public function create(array $validated): Customer;
 }
