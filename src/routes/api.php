@@ -6,7 +6,7 @@ use Molitor\Customer\Http\Controllers\Api\CustomerGroupApiController;
 
 // Admin routes
 Route::prefix('admin/customer')
-    ->middleware(['api', 'auth:sanctum'])
+    ->middleware(['api', 'auth:sanctum', 'permission:customer'])
     ->name('customer.')
     ->group(function () {
         // Customers

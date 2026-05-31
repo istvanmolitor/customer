@@ -4,6 +4,7 @@ namespace Molitor\Customer\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
@@ -33,7 +34,7 @@ class UpdateCustomerRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Gate::allows('acl', 'customer');
     }
 
     /**
